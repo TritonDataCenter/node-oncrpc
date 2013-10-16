@@ -1,0 +1,6 @@
+/node_modules
+/tmp
+build
+cscope.in.out
+cscope.po.out
+cscope.out
