@@ -32,9 +32,6 @@
         "chunky": "0.0.0",
         "tap": "0.4.4"
     },
-    "bin": {
-        "portmapd": "./portmap/main.js"
-    },
     "scripts": {
         "test": "tap test/*.test.js"
     },
