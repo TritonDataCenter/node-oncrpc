@@ -51,7 +51,7 @@ var rpc = require('../lib');
         next();
     });
 
-    server.getPort(function (req, res, next) {
+    server.get_port(function (req, res, next) {
         if (req.mapping.prog === 100003) {
             res.port = 2049;
         } else if (req.mapping.prog === 100005) {
