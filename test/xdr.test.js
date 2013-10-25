@@ -224,3 +224,20 @@ test('write uint (that is actually negative)', function (t) {
     t.equal(xdr.readInt() >> 0, i);
     t.end();
 });
+
+
+test('write small double', function (t) {
+    var xdr = new rpc.XDR(new Buffer(8));
+    var i = 244;
+    xdr.writeDouble(i);
+    xdr.rewind();
+    t.equal(xdr.readDouble(), i);
+    t.end();
+});
+
+
+test('more double', function (t) {
+    var xdr = new rpc.XDR(new Buffer([0x40, 0xa1, 0x88, 0, 0, 0, 0, 0]));
+    t.equal(xdr.readDouble(), 2244);
+    t.end();
+});
