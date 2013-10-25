@@ -69,6 +69,26 @@ test('read int array', function (t) {
 });
 
 
+test('read raw', function (t) {
+    var b = new Buffer(12);
+    var i;
+    for (i = 0; i < 12; i++)
+        b[i] = (i + 1);
+
+    var xdr = new rpc.XDR(b);
+    t.ok(xdr);
+
+    xdr.readByte();
+    var b2 = xdr.readRaw(5);
+    t.ok(b2);
+    t.equal(xdr.remain(), 6);
+    for (i = 0; i < 5; i++)
+        t.equal(b2[i], (i + 2));
+
+    t.end();
+});
+
+
 test('read string', function (t) {
     var str = 'hello, world!';
     var slen = Buffer.byteLength(str);
@@ -135,8 +155,9 @@ test('write boolean', function (t) {
 
 test('write string', function (t) {
     var STR = 'hello, world!';
+    t.equal(rpc.XDR.byteLength(STR), 20);
     function newBuf() {
-        var _b = new Buffer(20);
+        var _b = new Buffer(rpc.XDR.byteLength(STR));
         _b.fill(0xff);
         return (_b);
     }
@@ -159,5 +180,47 @@ test('write string', function (t) {
     t.equal(b.toString('ascii', off, off + STR.length), STR);
     off += STR.length;
     t.equal(b.slice(off).length, (4 - (STR.length % 4)));
+    t.end();
+});
+
+
+test('write uuid', function (t) {
+    var STR = '5471ffae-fe07-4656-a4c3-db206d852342';
+    t.equal(rpc.XDR.byteLength(STR), 40);
+    function newBuf() {
+        var _b = new Buffer(rpc.XDR.byteLength(STR));
+        _b.fill(0xff);
+        return (_b);
+    }
+
+    var xdr = new rpc.XDR(newBuf());
+    t.ok(xdr);
+
+    xdr.writeString(STR);
+    t.equal(xdr.remain(), 0);
+    xdr.rewind();
+
+    t.equal(xdr.readString(), STR);
+    xdr.rewind();
+
+    var b = xdr.slice();
+    var off = 0;
+
+    t.equal(b.readUInt32BE(off), STR.length);
+    off += 4;
+    t.equal(b.toString('ascii', off, off + STR.length), STR);
+    off += STR.length;
+    t.equal(b.slice(off).length, 0);
+    t.end();
+});
+
+
+
+test('write uint (that is actually negative)', function (t) {
+    var xdr = new rpc.XDR(new Buffer(4));
+    var i = -2; // mac's nobody user
+    xdr.writeInt(i);
+    xdr.rewind();
+    t.equal(xdr.readInt() >> 0, i);
     t.end();
 });
