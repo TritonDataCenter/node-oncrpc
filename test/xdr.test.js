@@ -69,26 +69,6 @@ test('read int array', function (t) {
 });
 
 
-test('read raw', function (t) {
-    var b = new Buffer(12);
-    var i;
-    for (i = 0; i < 12; i++)
-        b[i] = (i + 1);
-
-    var xdr = new rpc.XDR(b);
-    t.ok(xdr);
-
-    xdr.readByte();
-    var b2 = xdr.readRaw(5);
-    t.ok(b2);
-    t.equal(xdr.remain(), 6);
-    for (i = 0; i < 5; i++)
-        t.equal(b2[i], (i + 2));
-
-    t.end();
-});
-
-
 test('read string', function (t) {
     var str = 'hello, world!';
     var slen = Buffer.byteLength(str);
