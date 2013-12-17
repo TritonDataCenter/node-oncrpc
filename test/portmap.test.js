@@ -41,6 +41,12 @@ function setup(t, cb) {
         process.exit(1);
     });
 
+    server.set(function (req, res, next) {
+        res.res = 1;
+        res.send();
+        next();
+    });
+
     server.dump(function (req, res, next) {
         res.addMapping({
             name: 'portmap',
@@ -101,6 +107,24 @@ test('dump', function (t) {
                 t.equal(m.port, 123);
                 t.equal(m.prot, 6);
             }
+            t.end();
+        });
+    });
+});
+
+
+test('set', function (t) {
+    setup(t, function (client) {
+        var opts = {
+            prog: 100005,
+            vers: 3,
+            prot: 6,
+            port: 1892
+        };
+        client.set(opts, function (err, reply) {
+            t.ifError(err);
+            t.ok(reply);
+            t.equal(reply.res, 1);
             t.end();
         });
     });
