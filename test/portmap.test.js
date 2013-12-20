@@ -66,6 +66,12 @@ function setup(t, cb) {
         next();
     });
 
+    server.unset(function (req, res, next) {
+        res.res = 1;
+        res.send();
+        next();
+    });
+
     server.listen(function () {
         var addr = server.address();
 
@@ -122,6 +128,24 @@ test('set', function (t) {
             port: 1892
         };
         client.set(opts, function (err, reply) {
+            t.ifError(err);
+            t.ok(reply);
+            t.equal(reply.res, 1);
+            t.end();
+        });
+    });
+});
+
+
+test('unset', function (t) {
+    setup(t, function (client) {
+        var opts = {
+            prog: 100005,
+            vers: 3,
+            prot: 6,
+            port: 1892
+        };
+        client.unset(opts, function (err, reply) {
             t.ifError(err);
             t.ok(reply);
             t.equal(reply.res, 1);
