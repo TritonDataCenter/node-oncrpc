@@ -1,7 +1,7 @@
 {
     "name": "oncrpc",
     "description": "Library for creating ONC RPC Node.js servers and clients",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "keywords": [
         "xdr",
         "rpc"
@@ -10,7 +10,6 @@
         "name": "Joyent, Inc.",
         "url": "http://joyent.com/"
     },
-    "private": true,
     "license": "MPL",
     "repository": {
         "type": "git",
