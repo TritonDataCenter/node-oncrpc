@@ -13,7 +13,7 @@
     "license": "MPL-2.0",
     "repository": {
         "type": "git",
-        "url": "git://github.com/joyent/node-oncrpc.git"
+        "url": "https://github.com/joyent/node-oncrpc.git"
     },
     "bugs": {
         "url": "https://github.com/joyent/node-oncrpc/issues"
