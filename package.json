@@ -1,7 +1,7 @@
 {
     "name": "oncrpc",
     "description": "Library for creating ONC RPC Node.js servers and clients",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "keywords": [
         "xdr",
         "rpc"
@@ -35,6 +35,6 @@
         "test": "tap test/*.test.js"
     },
     "engines": {
-        "node" : ">=0.10.18 <0.12"
+        "node": ">=0.10.18 <0.12"
     }
 }
